@@ -2,11 +2,11 @@ from hcsr04 import HCSR04
 from time import sleep
 from machine import Pin
 
-import time
+'''import time
 import network
 
-ssid = 'Your network name'
-password = 'Your password'
+ssid = 'Network name'
+password = 'Password'
 
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
@@ -27,7 +27,7 @@ if wlan.status() != 3:
 else:
     print('connected')
     status = wlan.ifconfig()
-    print( 'ip = ' + status[0] )
+    print( 'ip = ' + status[0] )'''
 
 
 led_r = Pin(15, Pin.OUT)
@@ -57,17 +57,20 @@ def leds_off():
     led_r.off()
 
 def flash_red():
-    red()
-    sleep(.1)
-    leds_off()
-    sleep(.1)
-    print(distance)
+    while True:
+        distance = sensor.distance_cm()
+        red()
+        sleep(.1)
+        leds_off()
+        sleep(.1)
+        print(distance)
+        if distance >= 3:
+            break
 
 while True:
     distance = sensor.distance_cm()
     if distance < 3:
-        while distance < 3:
-            flash_red()
+        flash_red()
     elif distance > 0 and distance < 10:
         red()
         print(distance)
